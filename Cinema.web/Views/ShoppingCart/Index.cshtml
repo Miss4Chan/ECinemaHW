@@ -1,0 +1,88 @@
+﻿@model ECinemaDomain.DTO.ShoppingCartDTO
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using Microsoft.Extensions.Options
+@inject  IOptions<ECinema.Domain.StripeSettings> Stripe
+@if (Model.ticketsInShoppingCart.Count() == 0)
+{
+    <h1>Wow much empty here :()</h1>
+}
+else
+{
+
+    <div class="container">
+
+        <div class="row m-2">
+            @if (Model.TotalPrice != 0)
+            {
+                <form asp-controller="ShoppingCart" asp-action="PayOrder" method="post">
+                    <article>
+                        <script src="https://checkout.stripe.com/checkout.js"
+                                class="stripe-button"
+                                data-key="@Stripe.Value.PublishableKey"
+                                data-locale="auto"
+                                data-description="ECinema Payment"
+                                data-amount="@(Model.TotalPrice * 100)"
+                                data-label="Pay $@Model.TotalPrice">
+                        </script>
+                    </article>
+                </form>
+            }
+        </div>
+        <table class="table-striped text-center">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
+                    <th>
+                        Movie Name
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Individual Price
+                    </th>
+                    <th>
+                        Subtotal Price
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var i = 0;
+                    foreach (var item in Model.ticketsInShoppingCart)
+                    {
+                        <tr>
+                            <td>
+                                @(i++)
+                            </td>
+                            <td>@item.Ticket.MovieTitle</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Ticket.Price</td>
+                            <td>@(@item.Ticket.Price*@item.Quantity)</td>
+                            <td><a class="btn btn-danger" href="/ShoppingCart/DeleteFromShoppingCart/@item.TicketId">Delete</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>@Model.TotalPrice</th>
+
+                </tr>
+            </tfoot>
+        </table>
+    </div>   }

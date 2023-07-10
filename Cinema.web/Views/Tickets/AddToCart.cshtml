@@ -1,0 +1,21 @@
+﻿@model ECinemaDomain.DTO.AddToShoppingCartDTO
+
+
+@{
+    ViewData["Title"] = "Success";
+}
+<h1>
+    Add ticket(s) @Model.SelectedTicket.MovieTitle to shopping cart
+</h1>
+
+<div class="container">
+    <form class="m-md-auto col-6" asp-action="AddToShoppingCart">
+        <input type="hidden" asp-for="TicketId" /> @*ova tuka e za da mozhe da se isprati na metodot i idto na ticketot*@
+        <div class="form-group">
+            <input type="number" class="form-control" asp-for="Quantity" /> @*asp-for si ide od modelot sho go davash na razorot preku viewto na getot*@
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Continue" class="btn btn-outline-success" />
+        </div>
+    </form>
+</div>

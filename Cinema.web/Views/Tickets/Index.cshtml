@@ -1,0 +1,36 @@
+﻿
+@model IEnumerable<ECinemaDomain.Domain_Models.Ticket>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="container">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-3" style="background-color: #333333; color: #ffffff;">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.MovieTitle</h5>
+                        <p class="card-text">Category: @item.Category</p>
+                        <p class="card-text">Date and Time: @item.DateTime</p>
+                        <p class="card-text">Hall Type: @item.HallType</p>
+                        <p class="card-text">Price: @item.Price</p>
+                        <p class="card-text">Duration: @item.Duration</p>
+                        <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary">Edit</a>
+                        <a href="@Url.Action("Details", new { id = item.Id })" class="btn btn-primary">Details</a>
+                        <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger">Delete</a>
+                        <a href="/Tickets/AddToCart?ticketId=@item.Id" class="btn btn-success">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
